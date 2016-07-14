@@ -61,6 +61,14 @@
 
 	}
 
+	Players::~Players(void)
+	{
+		delete angle;
+		delete velocity;
+		delete order;
+		delete value;
+	}
+
 	int* Players::getOrder() {
 		return order;
 	}

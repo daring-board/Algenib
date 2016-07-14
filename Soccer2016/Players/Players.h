@@ -45,4 +45,5 @@ public:
 	PLAYERS_API float* getVerocity();
 
 	PLAYERS_API void setVerocity(float* vel);
+	~Players(void);
 };

@@ -17,6 +17,8 @@
 	}
 
 	Ball::~Ball(){
+		delete cond;
+		delete attr;
 	}
 	
 	ConstNum::Condition* Ball::getCondition(){

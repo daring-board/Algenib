@@ -67,6 +67,7 @@
 		}	
 	}
 	Input::~Input(){
+		delete cn;
 		fclose(fp);
 	}	
 

@@ -2,18 +2,21 @@
 //
 
 #include "stdafx.h"
-#include "..\Input\Input.h"
+#include "..\View\View.h"
 
 using namespace std;
 
 int main(int argc, char* args[])
 {
 	Input *ip;
-	if(argc == 3){
+	if(true){
 		ip = new Input(); 
 	}else{
 		ip = new Input(args[1], args[2]);
 	}
+	View *vw = new View(ip, "Soccer Window");
+	vw->drawfield();
+	vw->show();
 	return 0;
 }
 
