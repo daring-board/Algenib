@@ -14,6 +14,12 @@ View::View(Input *ip, char *name){
 	//width, height‚Ì‰æ‘œ‚ðì¬
 	int x = cn->getFieldWidth()*cn->getScale()+2*cn->getSpace();
 	int y = cn->getFieldHeight()*cn->getScale()+2*cn->getSpace();
+	ball = ip->getBall();
+	playersList = ip->getPlayersList();
+	NUM = cn->getPointNUM();
+	LOOP = cn->getLoop();
+	ballSize = 5;
+	playerSize = 3;
 	img = cvCreateImage (cvSize(x, y), IPL_DEPTH_8U, 3);
 	cvZero (img);
 	cvNamedWindow (str, CV_WINDOW_AUTOSIZE);
@@ -25,7 +31,6 @@ View::~View(void)
 {
 }
 
-
 void View::refresh(void)
 {
 	CvPoint p1,p2;
@@ -35,7 +40,6 @@ void View::refresh(void)
 	p2.y = img->height;
 	cvRectangle(img,p1,p2,CV_RGB (0, 255, 0),CV_FILLED);
 }
-
 
 void View::drawfield(void)
 {
@@ -121,6 +125,49 @@ void View::drawfield(void)
 
 void View::show(void)
 {
-	cvShowImage(str, img);
-	cvWaitKey(10000);
+	for(int t=0;t<LOOP;t++){
+		drawfield();
+		drawBall(t);
+		drawPlayers(t);
+		cvShowImage(str, img);
+		cvWaitKey(200);
+		refresh();
+	}
+}
+
+void View::drawBall(int t)
+{
+	CvPoint point;
+	CvPoint2D32f p_ball;
+
+	p_ball.x = ball->getX()[t];
+	p_ball.y = ball->getY()[t];
+	point = cvPointFrom32f(p_ball);
+
+	cvCircle (img, point, ballSize, CV_RGB (255, 255, 0), CV_FILLED);
+}
+
+void View::drawPlayers(int t)
+{
+	CvPoint point;
+	CvPoint2D32f p_player;
+	CvFont font1;
+	char* numS = new char[4];
+
+	cvInitFont(&font1, CV_FONT_HERSHEY_SIMPLEX, 0.4, 0.4, 0, 1, 8);
+	for(int n = 0; n < NUM-1; n++){
+		p_player.x = playersList->getX()[n+t*(NUM-1)];
+		p_player.y = playersList->getY()[n+t*(NUM-1)];
+		point = cvPointFrom32f(p_player);
+		sprintf_s(numS, sizeof(4), "%d", n);
+
+		if(n <  (NUM-1)/2){
+			cvCircle (img, point, playerSize, CV_RGB (255, 0, 0), CV_FILLED);
+			cvPutText(img, numS, point, &font1, CV_RGB (255, 0, 0) );
+		}else{
+			cvCircle (img, point, playerSize, CV_RGB (0, 0, 255), CV_FILLED);
+			cvPutText(img, numS, point, &font1, CV_RGB (0, 0, 255) );
+		}
+	}
+	delete numS;
 }

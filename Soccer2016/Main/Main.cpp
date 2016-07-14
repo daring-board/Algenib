@@ -14,8 +14,8 @@ int main(int argc, char* args[])
 	}else{
 		ip = new Input(args[1], args[2]);
 	}
+	ip->installCoodinate();
 	View *vw = new View(ip, "Soccer Window");
-	vw->drawfield();
 	vw->show();
 	return 0;
 }
