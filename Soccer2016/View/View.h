@@ -5,11 +5,12 @@
 #endif
 
 #include "stdafx.h"
+using namespace cv;
 
 class View
 {
 private:
-	IplImage *img;
+	Mat img;
 	ConstNum *cn;
 	char *str;
 	Ball *ball;
