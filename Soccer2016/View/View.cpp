@@ -125,10 +125,16 @@ void View::drawfield(void)
 
 void View::show(void)
 {
+	Subdiv2D subdiv;
 	for(int t=0;t<LOOP;t++){
 		drawfield();
+
+		subdiv = divideSurface(t, TF);
+		drawDelaunay(t, subdiv);
+
 		drawBall(t);
 		drawPlayers(t);
+
 		imshow(str, img);
 		waitKey(200);
 		refresh();
@@ -162,11 +168,87 @@ void View::drawPlayers(int t)
 
 		if(n <  (NUM-1)/2){
 			circle (img, point, playerSize, Scalar(255, 0, 0), CV_FILLED);
-			putText(img, numS, point, font, 1, Scalar(255, 0, 0));
+			putText(img, numS, point, font, 0.5, Scalar(255, 0, 0));
 		}else{
 			circle (img, point, playerSize, Scalar(0, 0, 255), CV_FILLED);
-			putText(img, numS, point, font, 1, Scalar(0, 0, 255));
+			putText(img, numS, point, font, 0.5, Scalar(0, 0, 255));
 		}
 	}
 	delete numS;
+}
+
+void View::drawDelaunay(int t, Subdiv2D subdiv){
+	vector<Vec4f> edgeList;
+	int Linesize = 1;
+		
+	// •Ó‚ÌƒŠƒXƒg‚ðŽæ“¾
+	subdiv.getEdgeList(edgeList);
+
+	// •`‰æ
+	int i=0;
+	for(auto edge = edgeList.begin(); edge != edgeList.end(); edge++)
+	{
+		Point p1(edge->val[0], edge->val[1]);
+		Point p2(edge->val[2], edge->val[3]);
+		if( !(abs(edge->val[0]) == 2820 || abs(edge->val[1]) == 2820
+			|| abs(edge->val[2]) == 2820 || abs(edge->val[3]) == 2820) ){
+			line( img, p1, p2, CV_RGB (0, 0, 255),Linesize,CV_AA,0);
+		}
+	}
+}
+
+Subdiv2D View::divideSurface(int time, type t){
+	int i;
+	int shift;
+	int pNUM = NUM-1;
+	CvPoint2D32f *point = new CvPoint2D32f[pNUM];
+
+	for(int i=0;i<pNUM;i++){
+		point[i].x = playersList->getX()[i+time*pNUM];
+		point[i].y = playersList->getY()[i+time*pNUM];
+	}
+
+	vector<Point2f> point_f;
+	Subdiv2D subdiv;
+	Interval inter = getTeam(t);
+	for (i = inter.start; i < inter.end; i++) {
+		if( i != pNUM/2 ){
+			if(point[i].x < 0){
+				point[i].x = 0;
+			}
+			if(point[i].x > img.cols ){
+				point[i].x = img.cols-1;
+			}
+			if(point[i].y < 0){
+				point[i].y = 0;
+			}
+			if(point[i].y > img.rows ){
+				point[i].y = img.rows-1;
+			}
+			point_f.push_back(point[i]);
+		}
+	}
+	subdiv.initDelaunay(Rect( 0, 0, img.cols, img.rows));
+	subdiv.insert(point_f);
+
+	return(subdiv);
+}
+
+View::Interval View::getTeam(int flag){
+	Interval inter = {1, NUM-1};
+	switch(flag){
+	case (int)TF:
+		inter.start = 1;
+		inter.end = (NUM-1)/2;
+		break;
+	case (int)TS:
+		inter.start = (NUM-1)/2+1;
+		inter.end = NUM-1;
+		break;
+	case (int)TA:
+		inter.start = 1;
+		inter.end = NUM-1;
+		break;
+	}
+	return inter;
 }

@@ -19,6 +19,12 @@ private:
 	int LOOP;
 	int ballSize;
 	int playerSize;
+	enum type{ TF=0, TS=1, TA=2};
+	typedef struct{
+		int start;
+		int end;
+	}Interval;
+	Interval getTeam(int flag);
 public:
 	VIEW_API View(void);
 	VIEW_API View(Input *ip, char *name);
@@ -28,5 +34,7 @@ public:
 	VIEW_API void show(void);
 	void drawBall(int t);
 	void drawPlayers(int t);
+	void drawDelaunay(int t, Subdiv2D subdiv);
+	Subdiv2D divideSurface(int time, type t);
 };
 
