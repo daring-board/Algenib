@@ -1,4 +1,4 @@
-// View.cpp : DLL �A�v���P�[�V�����p�ɃG�N�X�|�[�g�����֐����`���܂��B
+﻿// View.cpp : DLL アプリケーション用にエクスポートされる関数を定義します。
 //
 
 #include "stdafx.h"
@@ -12,7 +12,7 @@ View::View(void)
 View::View(Input *ip, char *name){
 	str = name;
 	cn = ip->getConstNum();
-	//width, height�̉摜���쐬
+	//width, heightの画像を作成
 	int x = cn->getFieldWidth()*cn->getScale()+2*cn->getSpace();
 	int y = cn->getFieldHeight()*cn->getScale()+2*cn->getSpace();
 	ball = ip->getBall();
@@ -125,20 +125,90 @@ void View::drawfield(void)
 
 void View::show(void)
 {
-	Subdiv2D subdiv;
-	for(int t=0;t<LOOP;t++){
-		drawfield();
 
-		subdiv = divideSurface(t, TF);
-		drawDelaunay(t, subdiv);
 
-		drawBall(t);
-		drawPlayers(t);
+	//// （1）DirectShowを使ってカメラキャプチャを行う。
+	//// また、IDが0番のカメラについてキャプチャの準備を行う
+	//int camera_id = 0;
+	//VideoCapture cap(CV_CAP_DSHOW + camera_id);
+	//// （2）IDが0番のカメラが正しくオープンできているかをチェックする（正しくオープンできていなければエラー終了する）
+	//if(!cap.isOpened()) return;
+	//// （3）カメラキャプチャのフレームレートを30.0に指定する
+	//cap.set(CV_CAP_PROP_FPS, 30.0);
 
-		imshow(str, img);
-		waitKey(200);
-		refresh();
+	string filename = "D:\\Video\\test.mp4";
+	VideoCapture cap(filename);
+
+	if(!cap.isOpened()) return;
+	// 画像表示用のウィンドウを生成する
+	namedWindow("image", WINDOW_AUTOSIZE);
+	// 画像データを格納するための変数を宣言する
+	Mat frame, blur, edges, result, tmp;
+	int max_frame=cap.get(CV_CAP_PROP_FRAME_COUNT);
+    for(int i=0; i<max_frame;i++){
+		// （4）カメラから1フレーム分の画像データを取得して、変数frameに格納する
+	    cap >> frame;
+		// 画像データ取得に失敗したらループを抜ける
+	    if (frame.empty()) break;
+		//グレースケール変換
+		cvtColor(frame, blur, CV_BGR2GRAY);
+		
+		//ガウシアンフィルタ
+        GaussianBlur(blur, blur, Size(7, 7), 1, 1);
+
+		//Laplacianによるエッジ検出
+		Laplacian(blur, tmp, CV_32F, 3);
+		convertScaleAbs(tmp, edges, 1, 0);
+
+		//表示のためにBGRに変換	
+		//cvtColor(edges, result, CV_GRAY2BGR);
+		Mat element = Mat::ones(1,1,CV_8UC1);
+		threshold(edges, result,80,255,THRESH_BINARY);
+		result=~result; //色反転
+        dilate(result, result, element, Point(-1,-1), 3); //膨張処理
+		//vector<vector<Point> > contours;
+  //      findContours(result, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
+  //      
+  //      double max_area=0;
+  //      int max_area_contour=-1;
+  //      for(int j=0;j<contours.size();j++){
+  //          double area=contourArea(contours.at(j));
+  //          if(max_area<area){
+  //              max_area=area;
+  //              max_area_contour=j;
+  //          }
+  //      }
+  //      int count=contours.at(max_area_contour).size();
+  //      double x=0;
+  //      double y=0;
+  //      for(int k=0;k<count;k++){
+  //          x+=contours.at(max_area_contour).at(k).x;
+  //          y+=contours.at(max_area_contour).at(k).y;
+  //      }
+  //      x/=count;
+  //      y/=count;
+  //      circle(frame, Point(x,y),5, Scalar(255,255,255),3,CV_AA);
+
+		// 取得した画像データをウィンドウ表示する
+		imshow("image", frame);
+		imshow("Limage", result);
+	    if(waitKey(30) >= 0) break;
 	}
+
+	//Subdiv2D subdiv;
+	//for(int t=0;t<LOOP;t++){
+	//	drawfield();
+
+	//	subdiv = divideSurface(t, TF);
+	//	drawDelaunay(t, subdiv);
+
+	//	drawBall(t);
+	//	drawPlayers(t);
+
+	//	imshow(str, img);
+	//	waitKey(200);
+	//	refresh();
+	//}
 }
 
 void View::drawBall(int t)
@@ -181,10 +251,10 @@ void View::drawDelaunay(int t, Subdiv2D subdiv){
 	vector<Vec4f> edgeList;
 	int Linesize = 1;
 		
-	// �ӂ̃��X�g���擾
+	// 辺のリストを取得
 	subdiv.getEdgeList(edgeList);
 
-	// �`��
+	// 描画
 	int i=0;
 	for(auto edge = edgeList.begin(); edge != edgeList.end(); edge++)
 	{
@@ -199,7 +269,6 @@ void View::drawDelaunay(int t, Subdiv2D subdiv){
 
 Subdiv2D View::divideSurface(int time, type t){
 	int i;
-	int shift;
 	int pNUM = NUM-1;
 	CvPoint2D32f *point = new CvPoint2D32f[pNUM];
 
