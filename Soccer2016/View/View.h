@@ -36,5 +36,6 @@ public:
 	void drawPlayers(int t);
 	void drawDelaunay(int t, Subdiv2D subdiv);
 	Subdiv2D divideSurface(int time, type t);
+	Mat createHist(Mat frame);
 };
 

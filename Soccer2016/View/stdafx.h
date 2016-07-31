@@ -16,4 +16,5 @@
 // TODO: プログラムに必要な追加ヘッダーをここで参照してください。
 #include "opencv2\opencv.hpp"
 #include "opencv2\opencv_lib.hpp"
+#include "opencv2\superres\optical_flow.hpp"
 #include "..\Input\Input.h"
