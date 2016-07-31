@@ -34,7 +34,9 @@ public:
 	VIEW_API void show(void);
 	void drawBall(int t);
 	void drawPlayers(int t);
-	void drawDelaunay(int t, Subdiv2D subdiv);
+	void drawDelaunay(Subdiv2D subdiv, type t);
 	Subdiv2D divideSurface(int time, type t);
+	Line calcLine(int time, type t);
+	void drawLine(Line dline, type t);
 };
 

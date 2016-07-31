@@ -26,7 +26,6 @@ View::View(Input *ip, char *name){
 	refresh();
 }
 
-
 View::~View(void)
 {
 }
@@ -126,11 +125,14 @@ void View::drawfield(void)
 void View::show(void)
 {
 	Subdiv2D subdiv;
+	Line dl;
 	for(int t=0;t<LOOP;t++){
 		drawfield();
 
-		subdiv = divideSurface(t, TF);
-		drawDelaunay(t, subdiv);
+		subdiv = divideSurface(t, TS);
+		dl = calcLine(t, TS);
+		drawDelaunay(subdiv, TS);
+		drawLine(dl, TS);
 
 		drawBall(t);
 		drawPlayers(t);
@@ -177,10 +179,10 @@ void View::drawPlayers(int t)
 	delete numS;
 }
 
-void View::drawDelaunay(int t, Subdiv2D subdiv){
+void View::drawDelaunay(Subdiv2D subdiv, type t){
 	vector<Vec4f> edgeList;
 	int Linesize = 1;
-		
+	Scalar color = (t==TF)? Scalar(255, 0, 0): Scalar( 0, 0, 255);
 	// •Ó‚ÌƒŠƒXƒg‚ðŽæ“¾
 	subdiv.getEdgeList(edgeList);
 
@@ -192,7 +194,7 @@ void View::drawDelaunay(int t, Subdiv2D subdiv){
 		Point p2(edge->val[2], edge->val[3]);
 		if( !(abs(edge->val[0]) == 2820 || abs(edge->val[1]) == 2820
 			|| abs(edge->val[2]) == 2820 || abs(edge->val[3]) == 2820) ){
-			line( img, p1, p2, CV_RGB (0, 0, 255),Linesize,CV_AA,0);
+			line( img, p1, p2, color, Linesize, CV_AA,0);
 		}
 	}
 }
@@ -251,4 +253,43 @@ View::Interval View::getTeam(int flag){
 		break;
 	}
 	return inter;
+}
+
+Line View::calcLine(int time, type t)
+{
+	int pNUM = NUM-1;
+	bool team = (t==TF)? true: false;
+	CvPoint2D32f *point = new CvPoint2D32f[pNUM];
+	for(int i=0;i<pNUM;i++){
+		point[i].x = playersList->getX()[i+time*pNUM];
+		point[i].y = playersList->getY()[i+time*pNUM];
+	}
+	vector<CvPoint2D32f> players;
+	Interval inter = getTeam(t);
+	for(int i=inter.start;i<inter.end;i++){
+		players.push_back(point[i]);
+	}
+	Line dl(players, team);
+	dl.calcDLine();
+	return(dl);
+}
+
+void View::drawLine(Line dline, type t)
+{
+	int Linesize = 2;
+	vector<CvPoint2D32f> l1,l2;
+	Point p1, p2;
+	Scalar color = (t==TF)? Scalar(255, 0, 0): Scalar( 0, 0, 255);
+	l1 = dline.getDLastLine();
+	l2 = dline.getDLine();
+	for(int i=0;i<l1.size()-1;i++){
+		p1 = cvPointFrom32f(l1.at(i));
+		p2 = cvPointFrom32f(l1.at(i+1));
+		line(img,p1,p2, color,Linesize,CV_AA,0);
+	}
+	for(int i=0;i<l2.size()-1;i++){
+		p1 = cvPointFrom32f(l2.at(i));
+		p2 = cvPointFrom32f(l2.at(i+1));
+		line(img,p1,p2, color,Linesize,CV_AA,0);
+	}
 }

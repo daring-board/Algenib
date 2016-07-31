@@ -185,6 +185,9 @@
     <ProjectReference Include="..\Input\Input.vcxproj">
       <Project>{3536cce0-7674-4ee6-8d86-f17bc5d7ac35}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Line\Line.vcxproj">
+      <Project>{e83ee6e0-7bc4-417a-ab5e-b74fc331d0bb}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Players\Players.vcxproj">
       <Project>{c33e92b6-01b7-449a-9369-6f3fd2ca415c}</Project>
     </ProjectReference>
