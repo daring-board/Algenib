@@ -3,9 +3,7 @@
 #else
 #define CONSTNUM_API __declspec(dllimport) 
 #endif
-
 #pragma once
-
 #include "stdafx.h"
 using namespace std;
 

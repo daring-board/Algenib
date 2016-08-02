@@ -2,7 +2,6 @@
 // 参照回数が多く、かつあまり変更されない、プロジェクト専用のインクルード ファイル
 // を記述します。
 //
-
 #pragma once
 
 #include "targetver.h"
@@ -14,8 +13,10 @@
 
 
 // TODO: プログラムに必要な追加ヘッダーをここで参照してください。
-#include "opencv2\opencv.hpp"
-#include "opencv2\opencv_lib.hpp"
-#include "..\Input\Input.h"
-#include "..\Line\Line.h"
-#include "..\BallController\BallController.h"
+#include <opencv2\opencv.hpp>
+#include <opencv2\opencv_lib.hpp>
+#include <vector>
+#include <stack>
+#include "..\Ball\Ball.h"
+#include "..\ConstNum\ConstNum.h"
+#include "..\Players\Players.h"

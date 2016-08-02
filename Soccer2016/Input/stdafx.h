@@ -18,3 +18,5 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include "..\Ball\Ball.h"
+#include "..\Players\Players.h"

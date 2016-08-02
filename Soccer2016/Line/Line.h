@@ -3,7 +3,7 @@
 #else
 #define LINE_API __declspec(dllimport) 
 #endif
-
+#pragma once
 #include "stdafx.h"
 using namespace cv;
 using namespace std;
@@ -24,6 +24,7 @@ private:
 	vector<float> calcMat(int num);
 	float calcError(int num, vector<float> abc);
 public:
+	LINE_API Line(vector<CvPoint2D32f> p, bool r, int err);
 	LINE_API Line(vector<CvPoint2D32f> p, bool r);
 	LINE_API Line();
 	LINE_API  ~Line();

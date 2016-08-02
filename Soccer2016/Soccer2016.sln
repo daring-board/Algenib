@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "View", "View\View.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Line", "Line\Line.vcxproj", "{E83EE6E0-7BC4-417A-AB5E-B74FC331D0BB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BallController", "BallController\BallController.vcxproj", "{3B3A9E0B-FC31-462C-AFAF-296B22B638B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -113,6 +115,18 @@ Global
 		{E83EE6E0-7BC4-417A-AB5E-B74FC331D0BB}.Release|Win32.Build.0 = Release|Win32
 		{E83EE6E0-7BC4-417A-AB5E-B74FC331D0BB}.Release|x64.ActiveCfg = Release|x64
 		{E83EE6E0-7BC4-417A-AB5E-B74FC331D0BB}.Release|x64.Build.0 = Release|x64
+		{3B3A9E0B-FC31-462C-AFAF-296B22B638B3}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{3B3A9E0B-FC31-462C-AFAF-296B22B638B3}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{3B3A9E0B-FC31-462C-AFAF-296B22B638B3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3B3A9E0B-FC31-462C-AFAF-296B22B638B3}.Debug|Win32.Build.0 = Debug|Win32
+		{3B3A9E0B-FC31-462C-AFAF-296B22B638B3}.Debug|x64.ActiveCfg = Debug|x64
+		{3B3A9E0B-FC31-462C-AFAF-296B22B638B3}.Debug|x64.Build.0 = Debug|x64
+		{3B3A9E0B-FC31-462C-AFAF-296B22B638B3}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{3B3A9E0B-FC31-462C-AFAF-296B22B638B3}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{3B3A9E0B-FC31-462C-AFAF-296B22B638B3}.Release|Win32.ActiveCfg = Release|Win32
+		{3B3A9E0B-FC31-462C-AFAF-296B22B638B3}.Release|Win32.Build.0 = Release|Win32
+		{3B3A9E0B-FC31-462C-AFAF-296B22B638B3}.Release|x64.ActiveCfg = Release|x64
+		{3B3A9E0B-FC31-462C-AFAF-296B22B638B3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

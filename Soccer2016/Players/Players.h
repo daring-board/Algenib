@@ -3,8 +3,7 @@
 #else
 #define PLAYERS_API __declspec(dllimport) 
 #endif
-
-
+#pragma once
 #include "stdafx.h"
 
 class Players{

@@ -15,6 +15,16 @@ bool compY(const CvPoint2D32f& left, const CvPoint2D32f& right){
 	return(left.y < right.y);
 }
 
+Line::Line(vector<CvPoint2D32f> p, bool rev, int err){
+	delta = err;
+	players = p;
+	if(rev){
+		sort( players.begin(), players.end(), compX);
+	}else{
+		sort( players.begin(), players.end(), compRX);
+	}
+}
+
 Line::Line(vector<CvPoint2D32f> p, bool rev){
 	delta = 10;
 	players = p;

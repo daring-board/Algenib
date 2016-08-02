@@ -126,20 +126,23 @@ void View::show(void)
 {
 	Subdiv2D subdiv;
 	Line dl;
-	for(int t=0;t<LOOP;t++){
-		drawfield();
+	for(int t=1;t<LOOP;t++){
+		/*BallController bc( ball, playersList, cn);
+		int ba = (int)bc.ballattribution(t);
+		cout<<bc.ballcondition(t)<<ba<<endl;
+		if(ba == 1){*/
+			drawfield();
+			subdiv = divideSurface(t, TS);
+			dl = calcLine(t, TF);
+			drawDelaunay(subdiv, TS);
+			drawLine(dl, TF);
+			drawBall(t);
+			drawPlayers(t);
 
-		subdiv = divideSurface(t, TS);
-		dl = calcLine(t, TS);
-		drawDelaunay(subdiv, TS);
-		drawLine(dl, TS);
-
-		drawBall(t);
-		drawPlayers(t);
-
-		imshow(str, img);
-		waitKey(200);
-		refresh();
+			imshow(str, img);
+			waitKey(200);
+			refresh();
+		//}
 	}
 }
 

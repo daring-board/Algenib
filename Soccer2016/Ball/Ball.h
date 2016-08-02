@@ -3,7 +3,7 @@
 #else
 #define BALL_API __declspec(dllimport) 
 #endif
-
+#pragma once
 #include "stdafx.h"
 
 class Ball{

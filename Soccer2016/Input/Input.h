@@ -3,10 +3,8 @@
 #else
 #define INPUT_API __declspec(dllimport) 
 #endif
-
+#pragma once
 #include "stdafx.h"
-#include "..\Ball\Ball.h"
-#include "..\Players\Players.h"
 
 using namespace std;
 
