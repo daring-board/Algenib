@@ -38,5 +38,8 @@ public:
 	Subdiv2D divideSurface(int time, type t);
 	Line calcLine(int time, type t);
 	void drawLine(Line dline, type t);
+	TDA calcTDA(int time, type t);
+	void drawTDAPair(TDA tda);
+	void drawTDATriangle(TDA tda);
 };
 

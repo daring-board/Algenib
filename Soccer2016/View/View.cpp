@@ -126,23 +126,29 @@ void View::show(void)
 {
 	Subdiv2D subdiv;
 	Line dl;
+	TDA tda;
+	BallController bc( ball, playersList, cn);
+	GameController gc( ball, &bc, cn);
+	ConstNum::ConditionOfGame cog = ConstNum::ConditionOfGame::progress;
+	ConstNum::Right right;
 	for(int t=1;t<LOOP;t++){
-		/*BallController bc( ball, playersList, cn);
-		int ba = (int)bc.ballattribution(t);
-		cout<<bc.ballcondition(t)<<ba<<endl;
-		if(ba == 1){*/
+		cog = gc.getCondition( cog, t);
+		right = gc.getOff(t);
+		if((right == ConstNum::Right::off_b) 
+			&& (cog == ConstNum::ConditionOfGame::progress)){
 			drawfield();
 			subdiv = divideSurface(t, TS);
+			tda = calcTDA(t, TF);
 			dl = calcLine(t, TF);
 			drawDelaunay(subdiv, TS);
+			drawTDATriangle(tda);
 			drawLine(dl, TF);
 			drawBall(t);
 			drawPlayers(t);
-
 			imshow(str, img);
 			waitKey(200);
 			refresh();
-		//}
+		}
 	}
 }
 
@@ -294,5 +300,44 @@ void View::drawLine(Line dline, type t)
 		p1 = cvPointFrom32f(l2.at(i));
 		p2 = cvPointFrom32f(l2.at(i+1));
 		line(img,p1,p2, color,Linesize,CV_AA,0);
+	}
+}
+
+TDA View::calcTDA(int time, type t){
+	int pNUM = NUM-1;
+	int scale = cn->getScale();
+	bool team = (t==TF)? true: false;
+	Interval inter = getTeam(t);
+	CvPoint2D32f *point = new CvPoint2D32f[pNUM/2];
+	for(int i=inter.start;i<inter.end;i++){
+		point[i].x = playersList->getX()[i+time*pNUM];
+		point[i].y = playersList->getY()[i+time*pNUM];
+	}
+	TDA tda( 7*scale, pNUM, point);
+	return(tda);
+}
+
+void View::drawTDAPair(TDA tda){
+	vector<pair<CvPoint2D32f, CvPoint2D32f>> pairs;
+	int Linesize = 1;
+	pairs = tda.getPairs();
+	Point p1,p2;
+	for(int i=0;i<pairs.size();i++){
+		p1 = cvPointFrom32f( pairs.at(i).first );
+		p2 = cvPointFrom32f( pairs.at(i).second );
+		line(img,p1,p2, Scalar(255, 255, 255), Linesize, CV_AA, 0);
+	}
+}
+
+void View::drawTDATriangle(TDA tda){
+	vector<tuple<CvPoint2D32f, CvPoint2D32f, CvPoint2D32f>> tuples;
+	int Linesize = 1;
+	tuples = tda.getTuples();
+	Point *p = new Point[3];
+	for(int i=0;i<tuples.size();i++){
+		p[0] = cvPointFrom32f( get<0>(tuples.at(i)) );
+		p[1] = cvPointFrom32f( get<1>(tuples.at(i)) );
+		p[2] = cvPointFrom32f( get<2>(tuples.at(i)) );
+		fillConvexPoly( img, p, 3, Scalar(200, 200, 50));
 	}
 }
