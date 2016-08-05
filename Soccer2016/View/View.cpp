@@ -140,8 +140,10 @@ void View::show(void)
 			subdiv = divideSurface(t, TS);
 			tda = calcTDA(t, TF);
 			dl = calcLine(t, TF);
+			calcurateDominant(t, bc);
 			drawDelaunay(subdiv, TS);
 			drawTDATriangle(tda);
+			drawDominant(t, bc);
 			drawLine(dl, TF);
 			drawBall(t);
 			drawPlayers(t);
@@ -341,3 +343,41 @@ void View::drawTDATriangle(TDA tda){
 		fillConvexPoly( img, p, 3, Scalar(200, 200, 50));
 	}
 }
+
+void View::calcurateDominant(int time, BallController bc){
+	int begin = 0;
+	int end = NUM-1;
+	float *reach = new float[NUM-1];
+	CvPoint2D32f b_pt;
+	b_pt.x = ball->getX()[time];
+	b_pt.y = ball->getY()[time];
+	reach = bc.ballReach(b_pt);
+
+	task_scheduler_init init;
+	ParaCalcDom *pDominant = new ParaCalcDom(img, playersList, cn,time);
+	pDominant->setBallReach(reach);
+	parallel_for(blocked_range<int>(begin, end), *pDominant);
+	pDominant->~ParaCalcDom();
+	init.terminate();
+
+	delete reach;
+}
+
+void View::drawDominant(int time, BallController bc){
+		float *reach = new float[NUM-1];
+		CvPoint2D32f b_pt;
+		b_pt.x = ball->getX()[time];
+		b_pt.y = ball->getY()[time];
+		reach = bc.ballReach(b_pt);
+		
+		task_scheduler_init init;
+
+		ParaPaintDom *pPaint = new ParaPaintDom(img, playersList, cn);
+		pPaint->setBallReach(reach);
+		parallel_for(blocked_range<int>(cn->getSpace(), img.rows-cn->getSpace()),*pPaint);
+		pPaint->~ParaPaintDom();
+		
+		init.terminate();
+		//paint();
+		delete reach;
+	}

@@ -14,12 +14,11 @@
 
 
 // TODO: プログラムに必要な追加ヘッダーをここで参照してください。
-#include "opencv2\opencv.hpp"
-#include "opencv2\opencv_lib.hpp"
-#include "..\Input\Input.h"
-#include "..\Line\Line.h"
-#include "..\BallController\BallController.h"
-#include "..\GameController\GameController.h"
-#include "..\TDA\TDA.h"
-#include "..\ParaCalcDom\ParaCalcDom.h"
-#include "..\ParaPaintDom\ParaPaintDom.h"
+#include <opencv2\opencv.hpp>
+#include <opencv2\opencv_lib.hpp>
+#include "tbb/task_scheduler_init.h"
+#include "tbb/blocked_range.h"
+#include "tbb/parallel_for.h"
+#include "tbb/tick_count.h"
+#include "..\Players\Players.h"
+#include "..\ConstNum\ConstNum.h"

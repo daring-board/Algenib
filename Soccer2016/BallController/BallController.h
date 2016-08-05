@@ -19,6 +19,8 @@ private:
 	int LOOP;
 	int NUM;
 	int EP;
+	int MAXR;
+	int scale;
 	float second;
 	stack<int> n_set;
 	//近傍にいる選手の集合の初期化
@@ -37,5 +39,6 @@ public:
 	BALLCONTROLLER_API ConstNum::Condition ballcondition(int moment);
 	//ボールの属性（teamA,teamB,team()）を返す。
 	BALLCONTROLLER_API ConstNum::Attribution ballattribution(int moment);
+	BALLCONTROLLER_API float* ballReach(CvPoint2D32f ball);
 };
 

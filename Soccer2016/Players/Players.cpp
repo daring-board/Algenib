@@ -58,7 +58,7 @@
 		int height = cn->getFieldHeight()*cn->getScale()+2*cn->getSpace();
 		order = new int[NUM*LOOP];
 		value = new float[width*height*NUM];
-
+		memset(value, constNum->getINF(), width*height*NUM);
 	}
 
 	Players::~Players(void)

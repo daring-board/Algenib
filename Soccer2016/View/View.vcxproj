@@ -79,8 +79,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\opencv\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\opencv\build\x64\vc11\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files\tbb42_20140122oss\include;C:\opencv\build\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\tbb42_20140122oss\lib\intel64\vc11;C:\opencv\build\x64\vc11\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -193,6 +193,12 @@
     </ProjectReference>
     <ProjectReference Include="..\Line\Line.vcxproj">
       <Project>{e83ee6e0-7bc4-417a-ab5e-b74fc331d0bb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ParaCalcDom\ParaCalcDom.vcxproj">
+      <Project>{262618ce-2338-4144-ac25-67d5b3fe0450}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ParaPaintDom\ParaPaintDom.vcxproj">
+      <Project>{ac00f35a-6f87-400b-94dd-dc95ec64b6ad}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Players\Players.vcxproj">
       <Project>{c33e92b6-01b7-449a-9369-6f3fd2ca415c}</Project>

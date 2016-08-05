@@ -22,6 +22,8 @@ BallController::BallController(Ball *ball,Players *players, ConstNum *cn)
 		}
 	}
 	EP = 2*cn->getScale();
+	scale = cn->getSpace();
+	MAXR = cn->getDist();
 }
 
 BallController::BallController(void)
@@ -108,6 +110,29 @@ float BallController::playerspeed(int loop, int index){
 		exit(0);
 	}
 	return(speed);
+}
+float* BallController::ballReach(CvPoint2D32f ball){
+	float *time = new float[NUM];
+	float dist=0;
+	float ballspeed = 10*scale;	//平均ボール速度は時速36㎞
+	
+	for(int i=0;i<NUM;i++){
+//		dist = (ball.x-point[i].x)*(ball.x-point[i].x);
+//		dist += (ball.y-point[i].y)*(ball.y-point[i].y);
+//		dist = sqrt(dist);
+//		time[i] = dist/ballspeed;
+////			time[i] = MAXR;
+//		//cout<<time[i]<<endl;
+//		if(time[i] > MAXR){
+//			time[i] = MAXR;
+//		}
+//		if(time[i] < MAXR/4){
+//			time[i] = MAXR/4;
+//		}
+		time[i] = MAXR;
+	}
+
+	return(time);
 }
 //ボールの状態（shot,keep,mix_up,others）を返す。
 ConstNum::Condition BallController::ballcondition(int moment){

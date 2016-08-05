@@ -41,5 +41,7 @@ public:
 	TDA calcTDA(int time, type t);
 	void drawTDAPair(TDA tda);
 	void drawTDATriangle(TDA tda);
+	void calcurateDominant(int time, BallController bc);
+	void drawDominant(int time, BallController bc);
 };
 
