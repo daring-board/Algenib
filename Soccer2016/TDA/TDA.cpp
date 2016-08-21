@@ -5,9 +5,17 @@
 
 TDA::TDA(int r, int NUM, CvPoint2D32f *point){
 	radius = r;
-	for(int i=1;i<NUM/2;i++){
-		if(NUM/2 != i) k_0.push_back(point[i]);
+	for(int i=0;i<NUM;i++){
+		k_0.push_back(point[i]);
 	}
+	cout<<endl;
+	CreatePair();
+	CreateTuple();
+}
+
+TDA::TDA(int r, vector<CvPoint2D32f> players){
+	radius = r;
+	k_0 = players;
 	CreatePair();
 	CreateTuple();
 }
@@ -33,9 +41,9 @@ void TDA::CreatePair(){
 			d = pi.y - pj.y;
 			tmp1 = (a*b+c*d)/2;
 			tmp2 = sqrtf(b*b+d*d);
-			dist = abs(b*pi.x+d*pi.y-tmp1)/tmp2;
+			dist = (tmp2==0)? 0: abs(b*pi.x+d*pi.y-tmp1)/tmp2;
 			//cout<<dist<<", "<< tmp2<<endl;
-			if(dist < radius){
+			if(dist < radius && tmp2 != 0){
 				//cout<<"("<<pi.x<<","<<pi.y<<") ("<<pj.x<<","<<pj.y<< ")"<<endl;
 				k_1.push_back(pair<CvPoint2D32f, CvPoint2D32f>(pi,pj));
 			}
@@ -45,7 +53,7 @@ void TDA::CreatePair(){
 }
 void TDA::CreateTuple(){
 	float a, b, c;
-	float s, r;
+	float s, r, tmp;
 	CvPoint2D32f pi, pj, pk;
 	for(int n=0;n<k_1.size();n++){
 		pi = k_1.at(n).first;
@@ -56,9 +64,10 @@ void TDA::CreateTuple(){
 			b = sqrt((pj.x-pk.x)*(pj.x-pk.x)+(pj.y-pk.y)*(pj.y-pk.y));
 			c = sqrt((pk.x-pi.x)*(pk.x-pi.x)+(pk.y-pi.y)*(pk.y-pi.y));
 			s = (a+b+c)/2;
-			r = (a*b*c)/(4*sqrt(s*(s-a)*(s-b)*(s-c)));
-			//cout<<r<<", "<<(4*sqrt(s*(s-a)*(s-b)*(s-c)))<<endl;
-			if(r < radius){
+			tmp = (s*(s-a)*(s-b)*(s-c) < 0)? 0: (4*sqrt(s*(s-a)*(s-b)*(s-c)));
+			r = (tmp==0)? 0: (a*b*c)/tmp;
+			//cout<<r<<", "<<tmp<<endl;
+			if(r < radius && tmp != 0){
 				//cout<<" under "<<(4*sqrt(s*(s-a)*(s-b)*(s-c)))<<endl;
 				//cout<<"("<<pi.x<<","<<pi.y<<") ("<<pj.x<<","<<pj.y<<") ("<<pk.x<<","<<pk.y<<")"<<endl;
 				k_2.push_back(make_tuple(pi,pj,pk));

@@ -18,6 +18,7 @@ private:
 	void CreateTuple();
 public:
 	TDA_API TDA(int r, int NUM, CvPoint2D32f *point);
+	TDA_API TDA(int r, vector<CvPoint2D32f> players);
 	TDA_API TDA();
 	TDA_API ~TDA();
 	TDA_API vector<pair< CvPoint2D32f, CvPoint2D32f>> getPairs();
