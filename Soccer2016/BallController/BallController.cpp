@@ -70,7 +70,7 @@ float BallController::ballspeed(int i){
 		vy = (float)((point[i].y-point[(i-1)].y)/second);		//‘¬“x‚Ì‚™¬•ª
 		speed = sqrt(vx*vx+vy*vy);
 	}else{
-		cout << "exception! BallSpeed" << endl;
+		//cout << "exception! BallSpeed" << endl;
 		exit(0);
 	}
 	return(speed);
@@ -89,8 +89,8 @@ int BallController::ballangle(int i){
 		//val = angle_Bound*ballspeed(i)*ballspeed(i+1);
 		val = angleBound*sqrt(v2x*v2x+v2y*v2y)*sqrt(v1x*v1x+v1y*v1y);
 	}else{
-		cout<<i<<endl;
-		cout<<"exception! BallAngle" << endl;
+		//cout<<i<<endl;
+		//cout<<"exception! BallAngle" << endl;
 		//exit(0);
 	}
 	if(inner >= val){
@@ -106,7 +106,7 @@ float BallController::playerspeed(int loop, int index){
 		vy = (float)((point_p[index+loop*NUM].y-point_p[index+(loop-1)*NUM].y)/second);		//‘¬“x‚Ì‚™¬•ª
 		speed = sqrt(vx*vx+vy*vy);
 	}else{
-		cout << "exception! PlayerSpeed" << endl;
+		//cout << "exception! PlayerSpeed" << endl;
 		exit(0);
 	}
 	return(speed);
@@ -160,7 +160,7 @@ ConstNum::Attribution BallController::ballattribution(int moment){
 	if(cond==0){
 		//cout << "Ball condition is pass." << endl;
 		if(moment==1){
-			cout << "exception!! BallAngle" << endl;
+			//cout << "exception!! BallAngle" << endl;
 			return(ConstNum::own_w);
 		}else{
 			return(ballattribution(moment-1));
