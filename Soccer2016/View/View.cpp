@@ -137,10 +137,11 @@ void View::show(void)
 		if((right == ConstNum::Right::off_a) 
 			&& (cog == ConstNum::ConditionOfGame::progress)){
 			drawfield();
+			// Dominant Region
+			calcurateDominant(t, bc);
+			drawDominant(t, bc);
 			
 			// Topological
-			//tda = calcTDA(t, TF);
-			//drawTDATriangle(tda, TF);
 			tda = calcTDA(t, TS);
 			drawTDATriangle(tda, TS);
 			// Delaunay
@@ -150,8 +151,6 @@ void View::show(void)
 			dl = calcLine(t, TS);
 			drawLine(dl, TS);
 
-			//calcurateDominant(t, bc);
-			//drawDominant(t, bc);
 			drawBall(t);
 			drawPlayers(t);
 			divideField(t, TS);
