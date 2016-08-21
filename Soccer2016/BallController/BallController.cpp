@@ -21,7 +21,7 @@ BallController::BallController(Ball *ball,Players *players, ConstNum *cn)
 			point_p[j+i*NUM].y = players->getY()[j+i*NUM];
 		}
 	}
-	EP = 2*cn->getScale();
+	EP = cn->getRadius()*cn->getScale();
 	scale = cn->getSpace();
 	MAXR = cn->getDist();
 }
