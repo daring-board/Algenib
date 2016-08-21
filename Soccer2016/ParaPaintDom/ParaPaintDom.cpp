@@ -73,6 +73,8 @@ void ParaPaintDom::operator() (const blocked_range<int>& range) const{
 			index = agent;
 			if(agent < NUM/2){
 				agent = 0;
+			}else if(agent < NUM){
+				agent = 270;
 			}else{
 				agent = 180;
 			}
@@ -90,33 +92,15 @@ void ParaPaintDom::color(int px,int py,int agent,float time, int i) const{
 	int I,M,n,K;
 	int flag=0;
 
-//		if(agent == NUM || time > TIMES){	//ŠÔ‚ğTIMES•b‚Å‘Å‚¿Ø‚é
-//			if(agent == NUM && time < TIMES){
 	if(agent == NUM || time > reachTime[i]){	
-		if(agent == NUM && time < reachTime[i]){
-
 			V=255;S=1;
 			flag=1;
-		}else{
-			V=255;S=1;
-			flag=1;
-		}
-	}else if(agent>NUM/2){
-		agent = agent-(NUM/2+1);
-		V=250;
-		S=0.7;
-		V = V-100*time/dist;
-		flag = 1;
-		//V=250;S=1;
 	}else{
 		V=250;
 		S=0.7;
 		V = V-100*time/dist;
-		//V=250;S=1;
 	}
 	if(flag==0){
-		//srand(agent);
-		//H = (float)(rand()%12)*30;
 		H = (float)(agent);
 		I = (int)H/60;
 		F = H/60-I;
