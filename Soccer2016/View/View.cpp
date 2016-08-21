@@ -134,19 +134,28 @@ void View::show(void)
 	for(int t=1;t<LOOP;t++){
 		cog = gc.getCondition( cog, t);
 		right = gc.getOff(t);
-		if((right == ConstNum::Right::off_b) 
+		if((right == ConstNum::Right::off_a) 
 			&& (cog == ConstNum::ConditionOfGame::progress)){
 			drawfield();
-			subdiv = divideSurface(t, TS);
-			tda = calcTDA(t, TF);
-			dl = calcLine(t, TF);
-			calcurateDominant(t, bc);
-			drawDelaunay(subdiv, TS);
-			drawTDATriangle(tda);
-			drawDominant(t, bc);
-			drawLine(dl, TF);
+			
+			// Topological
+			//tda = calcTDA(t, TF);
+			//drawTDATriangle(tda, TF);
+			tda = calcTDA(t, TS);
+			drawTDATriangle(tda, TS);
+			// Delaunay
+			subdiv = divideSurface(t, TF);
+			drawDelaunay(subdiv, TF);
+			// Defence Line
+			dl = calcLine(t, TS);
+			drawLine(dl, TS);
+
+			//calcurateDominant(t, bc);
+			//drawDominant(t, bc);
 			drawBall(t);
 			drawPlayers(t);
+			divideField(t, TS);
+			drawOffsideLine(t, TS);
 			imshow(str, img);
 			waitKey(200);
 			refresh();
@@ -308,39 +317,44 @@ void View::drawLine(Line dline, type t)
 TDA View::calcTDA(int time, type t){
 	int pNUM = NUM-1;
 	int scale = cn->getScale();
-	bool team = (t==TF)? true: false;
 	Interval inter = getTeam(t);
-	CvPoint2D32f *point = new CvPoint2D32f[pNUM/2];
-	for(int i=inter.start;i<inter.end;i++){
+	CvPoint2D32f *point = new CvPoint2D32f[pNUM];
+	vector<CvPoint2D32f> players;
+	for(int i=0;i<pNUM;i++){
 		point[i].x = playersList->getX()[i+time*pNUM];
 		point[i].y = playersList->getY()[i+time*pNUM];
 	}
-	TDA tda( 7*scale, pNUM, point);
+	for(int i=inter.start;i<inter.end;i++){
+		players.push_back(point[i]);
+	}
+	TDA tda( 7*scale, players);
 	return(tda);
 }
 
-void View::drawTDAPair(TDA tda){
+void View::drawTDAPair(TDA tda, type t){
 	vector<pair<CvPoint2D32f, CvPoint2D32f>> pairs;
 	int Linesize = 1;
 	pairs = tda.getPairs();
 	Point p1,p2;
+	Scalar color = (t==TF)? Scalar(255, 0, 0): Scalar( 0, 0, 255);
 	for(int i=0;i<pairs.size();i++){
 		p1 = cvPointFrom32f( pairs.at(i).first );
 		p2 = cvPointFrom32f( pairs.at(i).second );
-		line(img,p1,p2, Scalar(255, 255, 255), Linesize, CV_AA, 0);
+		cv::line(img,p1,p2, color, Linesize, CV_AA, 0);
 	}
 }
 
-void View::drawTDATriangle(TDA tda){
+void View::drawTDATriangle(TDA tda, type t){
 	vector<tuple<CvPoint2D32f, CvPoint2D32f, CvPoint2D32f>> tuples;
 	int Linesize = 1;
 	tuples = tda.getTuples();
 	Point *p = new Point[3];
+	Scalar color = (t==TF)? Scalar(200, 100, 100): Scalar( 100, 100, 200);
 	for(int i=0;i<tuples.size();i++){
 		p[0] = cvPointFrom32f( get<0>(tuples.at(i)) );
 		p[1] = cvPointFrom32f( get<1>(tuples.at(i)) );
 		p[2] = cvPointFrom32f( get<2>(tuples.at(i)) );
-		fillConvexPoly( img, p, 3, Scalar(200, 200, 50));
+		fillConvexPoly( img, p, 3, color);
 	}
 }
 
@@ -381,3 +395,58 @@ void View::drawDominant(int time, BallController bc){
 		//paint();
 		delete reach;
 	}
+
+void View::drawOffsideLine(int time, type t){
+	int lineSize = 1;
+	CvPoint pt1,pt2;
+	CvPoint2D32f *point = new CvPoint2D32f[NUM-1];
+	float tmp = (t==TF)? INFINITE: 0;
+	int index = 0;
+	Scalar color = (t==TF)? Scalar(255, 0, 0): Scalar( 0, 0, 255);
+	bool flag = false;
+	Interval inter = getTeam(t);
+
+	for(int j=inter.start;j<inter.end;j++){
+		if(j == (NUM-1)/2) continue;
+		flag = false;
+		point[j].x = playersList->getX()[j+time*(NUM-1)];
+		point[j].y = playersList->getY()[j+time*(NUM-1)];
+		flag = (t==TF)? (point[j].x < tmp): (point[j].x > tmp);
+		if(flag){
+			tmp = point[j].x;
+			index = j;
+		}
+	}
+	pt1 = cvPointFrom32f( cvPoint2D32f( point[index].x, cn->getSpace()) );
+	pt2 = cvPointFrom32f( cvPoint2D32f( point[index].x, img.cols-cn->getSpace()));
+	cv::line(img,pt1,pt2, color,lineSize,CV_AA,0);
+}
+
+void View::divideField(int time, type t){
+	int lineSize = 1;
+	Point b, goal, up, down;
+	CvPoint2D32f b_tmp, goal_tmp,up_tmp,down_tmp;
+	Scalar color = (t==TF)? Scalar(255, 0, 0): Scalar( 0, 0, 255);
+
+	b_tmp.x = ball->getX()[time];
+	b_tmp.y = ball->getY()[time];
+	goal_tmp.y = img.cols/2;
+	goal_tmp.x = cn->getSpace();
+
+	b    = cvPointFrom32f(b_tmp);
+	goal = cvPointFrom32f(goal_tmp);
+
+	int scale = cn->getScale();
+	float goalSize = cn->getGoal();
+	float pos = (t==TF)? cn->getSpace(): img.cols-cn->getSpace();
+	up_tmp.x = pos;
+	up_tmp.y = img.rows/2-(goalSize*scale/2+16.5*scale);
+	down_tmp.x = pos;
+	down_tmp.y = img.rows/2+(goalSize*scale/2+16.5*scale);
+
+	up	 = cvPointFrom32f(up_tmp);
+	down = cvPointFrom32f(down_tmp);
+
+	line (img, up, b, color, lineSize, CV_AA, 0);
+	line (img, down, b, color, lineSize, CV_AA, 0);
+}

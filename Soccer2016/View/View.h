@@ -39,9 +39,11 @@ public:
 	Line calcLine(int time, type t);
 	void drawLine(Line dline, type t);
 	TDA calcTDA(int time, type t);
-	void drawTDAPair(TDA tda);
-	void drawTDATriangle(TDA tda);
+	void drawTDAPair(TDA tda, type t);
+	void drawTDATriangle(TDA tda, type t);
 	void calcurateDominant(int time, BallController bc);
 	void drawDominant(int time, BallController bc);
+	void drawOffsideLine(int time, type t);
+	void divideField(int time, type t);
 };
 
