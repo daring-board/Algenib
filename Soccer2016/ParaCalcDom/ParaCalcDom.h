@@ -29,7 +29,6 @@ class ParaCalcDom{
 	int INFI;
 	int RE;
 	int bRE;
-//	float dist;
 	int moment;
 	int VMax;
 	int RESIST;

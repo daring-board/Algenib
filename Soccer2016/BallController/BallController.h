@@ -19,7 +19,7 @@ private:
 	int LOOP;
 	int NUM;
 	int EP;
-	int MAXR;
+	float MAXR;
 	int scale;
 	float second;
 	stack<int> n_set;

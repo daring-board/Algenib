@@ -117,18 +117,16 @@ float* BallController::ballReach(CvPoint2D32f ball){
 	float ballspeed = 10*scale;	//•½‹Ïƒ{[ƒ‹‘¬“x‚Í‘¬36‡q
 	
 	for(int i=0;i<NUM;i++){
-//		dist = (ball.x-point[i].x)*(ball.x-point[i].x);
-//		dist += (ball.y-point[i].y)*(ball.y-point[i].y);
-//		dist = sqrt(dist);
-//		time[i] = dist/ballspeed;
-////			time[i] = MAXR;
-//		//cout<<time[i]<<endl;
-//		if(time[i] > MAXR){
-//			time[i] = MAXR;
-//		}
-//		if(time[i] < MAXR/4){
-//			time[i] = MAXR/4;
-//		}
+		/*dist = (ball.x-point[i].x)*(ball.x-point[i].x);
+		dist += (ball.y-point[i].y)*(ball.y-point[i].y);
+		dist = sqrt(dist);
+		time[i] = dist/ballspeed;
+		if(time[i] > MAXR){
+			time[i] = MAXR;
+		}
+		if(time[i] < MAXR/4){
+			time[i] = MAXR/4;
+		}*/
 		time[i] = MAXR;
 	}
 
@@ -161,7 +159,7 @@ ConstNum::Attribution BallController::ballattribution(int moment){
 		//cout << "Ball condition is pass." << endl;
 		if(moment==1){
 			//cout << "exception!! BallAngle" << endl;
-			return(ConstNum::own_w);
+			return(ConstNum::own_b);
 		}else{
 			return(ballattribution(moment-1));
 		}

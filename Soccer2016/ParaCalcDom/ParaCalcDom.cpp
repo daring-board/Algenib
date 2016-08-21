@@ -16,7 +16,6 @@ ParaCalcDom::ParaCalcDom(Mat image, Players *pL, ConstNum *constNum, int time){
 	INFI = constNum->getINF();
 	RE = constNum->getREPET();
 	bRE = constNum->getBiREPET();
-//		dist = constNum->getDist();
 	VMax = constNum->getVMax();
 	RESIST = constNum->getResist();
 	cn = constNum;
