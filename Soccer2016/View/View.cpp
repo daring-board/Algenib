@@ -122,44 +122,33 @@ void View::drawfield(void)
 	ellipse(img,pt1,parc,0,180-53,53+180,rcolor, lineSize, CV_AA, 0);
 }
 
-void View::show(void)
+void View::show(BallController bc, int t)
 {
 	Subdiv2D subdiv;
 	Line dl;
 	TDA tda;
-	BallController bc( ball, playersList, cn);
-	GameController gc( ball, &bc, cn);
-	ConstNum::ConditionOfGame cog = ConstNum::ConditionOfGame::progress;
-	ConstNum::Right right;
-	for(int t=1;t<LOOP;t++){
-		cog = gc.getCondition( cog, t);
-		right = gc.getOff(t);
-		if((right == ConstNum::Right::off_a) 
-			&& (cog == ConstNum::ConditionOfGame::progress)){
-			drawfield();
-			// Dominant Region
-			calcurateDominant(t, bc);
-			drawDominant(t, bc);
+	drawfield();
+	// Dominant Region
+	/*calcurateDominant(t, bc);
+	drawDominant(t, bc, TS);*/
 			
-			// Topological
-			tda = calcTDA(t, TS);
-			drawTDATriangle(tda, TS);
-			// Delaunay
-			subdiv = divideSurface(t, TF);
-			drawDelaunay(subdiv, TF);
-			// Defence Line
-			dl = calcLine(t, TS);
-			drawLine(dl, TS);
+	// Topological
+	tda = calcTDA(t, TS);
+	drawTDATriangle(tda, TS);
+	// Delaunay
+	/*subdiv = divideSurface(t, TF);
+	drawDelaunay(subdiv, TF);*/
+	// Defence Line
+	dl = calcLine(t, TS);
+	drawLine(dl, TS);
 
-			drawBall(t);
-			drawPlayers(t);
-			divideField(t, TS);
-			drawOffsideLine(t, TS);
-			imshow(str, img);
-			waitKey(200);
-			refresh();
-		}
-	}
+	drawBall(t);
+	drawPlayers(t);
+	divideField(t, TS);
+	drawOffsideLine(t, TS);
+	imshow(str, img);
+	waitKey(200);
+	refresh();
 }
 
 void View::drawBall(int t)
@@ -376,7 +365,7 @@ void View::calcurateDominant(int time, BallController bc){
 	delete reach;
 }
 
-void View::drawDominant(int time, BallController bc){
+void View::drawDominant(int time, BallController bc, type t){
 		float *reach = new float[NUM-1];
 		CvPoint2D32f b_pt;
 		b_pt.x = ball->getX()[time];
@@ -385,13 +374,12 @@ void View::drawDominant(int time, BallController bc){
 		
 		task_scheduler_init init;
 
-		ParaPaintDom *pPaint = new ParaPaintDom(img, playersList, cn);
+		ParaPaintDom *pPaint = new ParaPaintDom(img, playersList, cn, (int)t);
 		pPaint->setBallReach(reach);
 		parallel_for(blocked_range<int>(cn->getSpace(), img.rows-cn->getSpace()),*pPaint);
 		pPaint->~ParaPaintDom();
 		
 		init.terminate();
-		//paint();
 		delete reach;
 	}
 

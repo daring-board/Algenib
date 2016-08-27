@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "ParaPaintDom.h"
 
-ParaPaintDom::ParaPaintDom(Mat image, Players *pList, ConstNum *cNum){
+ParaPaintDom::ParaPaintDom(Mat image, Players *pList, ConstNum *cNum, int t){
 	img = image;
 	playersList = pList;
 	cn = cNum;
@@ -15,6 +15,7 @@ ParaPaintDom::ParaPaintDom(Mat image, Players *pList, ConstNum *cNum){
 	hspace = cn->getSpace();
 	wspace = cn->getSpace();
 	dist = cn->getDist();
+	type = t;
 }
 
 void ParaPaintDom::setBallReach(float *time){
@@ -72,11 +73,13 @@ void ParaPaintDom::operator() (const blocked_range<int>& range) const{
 			}
 			index = agent;
 			if(agent < NUM/2){
-				agent = 0;
+				agent = (type==2)? 0: NUM;
+				agent = (type==0)? 0: agent;
 			}else if(agent < NUM){
-				agent = 270;
+				agent = (type==2)? 270: NUM;
+				agent = (type==1)? 270: agent;
 			}else{
-				agent = 180;
+				agent = NUM;
 			}
 			color(px,py,agent,tmp,index);			
 			agent=0;
@@ -93,8 +96,8 @@ void ParaPaintDom::color(int px,int py,int agent,float time, int i) const{
 	int flag=0;
 
 	if(agent == NUM || time > reachTime[i]){	
-			V=255;S=1;
-			flag=1;
+		V=255;S=1;
+		flag=1;
 	}else{
 		V=250;
 		S=0.7;

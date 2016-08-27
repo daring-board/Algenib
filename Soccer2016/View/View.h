@@ -31,7 +31,7 @@ public:
 	VIEW_API ~View(void);
 	void refresh(void);
 	void drawfield(void);
-	VIEW_API void show(void);
+	VIEW_API void show(BallController bc, int t);
 	void drawBall(int t);
 	void drawPlayers(int t);
 	void drawDelaunay(Subdiv2D subdiv, type t);
@@ -42,7 +42,7 @@ public:
 	void drawTDAPair(TDA tda, type t);
 	void drawTDATriangle(TDA tda, type t);
 	void calcurateDominant(int time, BallController bc);
-	void drawDominant(int time, BallController bc);
+	void drawDominant(int time, BallController bc, type t);
 	void drawOffsideLine(int time, type t);
 	void divideField(int time, type t);
 };

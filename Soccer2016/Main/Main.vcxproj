@@ -160,11 +160,17 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BallController\BallController.vcxproj">
+      <Project>{3b3a9e0b-fc31-462c-afaf-296b22b638b3}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Ball\Ball.vcxproj">
       <Project>{e67cff27-2041-43ef-a11e-6e0c20044a9e}</Project>
     </ProjectReference>
     <ProjectReference Include="..\ConstNum\ConstNum.vcxproj">
       <Project>{8aea08a4-672c-4725-9583-86d09461c79e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\GameController\GameController.vcxproj">
+      <Project>{c9ea09c8-8f15-4793-82b6-37e65c06499c}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Input\Input.vcxproj">
       <Project>{3536cce0-7674-4ee6-8d86-f17bc5d7ac35}</Project>

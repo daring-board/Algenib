@@ -22,10 +22,11 @@ private:
 	int wspace;
 	float *reachTime;
 	float dist;
+	int type;
 	//各選手の色を決める（HSV→RGB）
 	void color(int px,int py,int agent,float time, int i) const;
 public:
-	PARAPAINTDOM_API ParaPaintDom(Mat image, Players *pList, ConstNum *cNum);
+	PARAPAINTDOM_API ParaPaintDom(Mat image, Players *pList, ConstNum *cNum, int t);
 	PARAPAINTDOM_API void setBallReach(float *time);
 	//優勢領域の塗り分け
 	PARAPAINTDOM_API void paint(int t);
