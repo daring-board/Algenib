@@ -171,7 +171,7 @@ ConstNum::Attribution BallController::ballattribution(int moment){
 			index = n_set.top();
 			n_set.pop();
 			//cout<<index<<",";
-			if((1 <= index)&&(index <= NUM/2)){
+			if((0 <= index)&&(index < NUM/2)){
 				st1.push(index);
 			}else{
 				st2.push(index);
