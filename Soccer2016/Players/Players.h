@@ -17,6 +17,7 @@ private:
 	int LOOP;
 	float* angle;
 	float *velocity;
+	ConstNum::PlayerType *type;
 	float speedOfPoint(int t);
 	float angleOfBall(int t);
 public:
@@ -44,5 +45,10 @@ public:
 	PLAYERS_API float* getVerocity();
 
 	PLAYERS_API void setVerocity(float* vel);
+
+	PLAYERS_API int getLLD(int num, int t);
+
+	PLAYERS_API stack<int> getLD(int num, int t);
+
 	~Players(void);
 };

@@ -16,19 +16,22 @@ int main(int argc, char* args[])
 	}
 	ip->installCoodinate();
 	View *vw = new View(ip, "Soccer Window");
+	BallController bc(ip->getBall(), ip->getPlayersList(), ip->getConstNum());
+	GameController gc(ip->getBall(), &bc, ip->getConstNum());
+	ConstNum::ConditionOfGame cog = gc.getCondition(ConstNum::progress, 1);
 	for(int t=1;t<ip->getConstNum()->getLoop();t++){
-		BallController bc(ip->getBall(), ip->getPlayersList(), ip->getConstNum());
-		GameController gc(ip->getBall(), &bc, ip->getConstNum());
 		cout<<t<<": ";
 		bc.ballcondition(t);
 		bc.ballattribution(t);
 		ConstNum::Right right = gc.getOff(t);
 		if(right == ConstNum::Right::off_a){
 			cout<<"OffA"<<endl;
+			if(ConstNum::ConditionOfGame::progress == gc.getCondition(cog, t)){
+				vw->show(bc, t);
+			}
 		}else{
 			cout<<"OffB"<<endl;
 		}
-		vw->show(bc, t);
 	}
 	return 0;
 }

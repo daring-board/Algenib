@@ -16,5 +16,6 @@
 // TODO: プログラムに必要な追加ヘッダーをここで参照してください。
 #include <fstream>
 #include <sstream>
+#include <stack>
 #include <math.h>
 #include "..\ConstNum\ConstNum.h"

@@ -27,6 +27,14 @@ public:
 		suspend, progress
 	};
 
+	CONSTNUM_API static enum PlayerType{
+		LLD,//Last Line Diffender
+		LD,//First Line Diffender
+		BH,//Ball Holder
+		FD,//First Deffender
+		SD//Second Deffender
+	};
+
 	map<string, string> properyMap;
 
 	CONSTNUM_API ConstNum();

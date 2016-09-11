@@ -23,3 +23,4 @@
 #include "..\TDA\TDA.h"
 #include "..\ParaCalcDom\ParaCalcDom.h"
 #include "..\ParaPaintDom\ParaPaintDom.h"
+#include <stack>

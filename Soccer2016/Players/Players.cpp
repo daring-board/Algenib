@@ -57,6 +57,7 @@
 		int width = cn->getFieldWidth()*cn->getScale()+2*cn->getSpace();
 		int height = cn->getFieldHeight()*cn->getScale()+2*cn->getSpace();
 		order = new int[NUM*LOOP];
+		type = new ConstNum::PlayerType[NUM*LOOP];
 		value = new float[width*height*NUM];
 		memset(value, constNum->getINF(), width*height*NUM);
 	}
@@ -113,3 +114,58 @@
 	void Players::setVerocity(float* vel){
 		velocity = vel;
 	}
+
+	int Players::getLLD(int time, int t){
+		bool flag = false;
+		int index = 1;
+		float tmp = (t == 0)? 1000: 0;
+		int start, end;
+		if(t == 0){
+			start = 1;
+			end = NUM/2;
+		}else{
+			start = NUM/2+1;
+			end = NUM;
+		}
+		for(int j=start;j<end;j++){
+			if(j == NUM/2) continue;
+			flag = false;
+			flag = (t==0)? (x[j+time*NUM] < tmp): (x[j+time*NUM] > tmp);
+			if(flag){
+				tmp = x[j+time*NUM];
+				index = j;
+			}
+		}
+		type[index+time*NUM] = ConstNum::PlayerType::LLD;
+		return(index);
+	}
+
+	stack<int> Players::getLD(int time, int t){
+		bool flag = false;
+		int index = 0;
+		stack<int> st;
+		int start, end;
+		if(t == 0){
+			start = 1;
+			end = NUM/2;
+		}else{
+			start = NUM/2+1;
+			end = NUM;
+		}
+		for(int j=start;j<end;j++){
+			if(type[j+time*NUM] == ConstNum::PlayerType::LLD){
+				index = j;
+				break;
+			}
+		}
+		for(int j=start;j<end;j++){
+			if((x[index+time*NUM] <= x[j+time*NUM])
+				&& (x[index+time*NUM]+2 > x[j+time*NUM])){
+					type[j+time*NUM] = ConstNum::PlayerType::LD;
+					st.push(j);
+			}
+		}
+		return(st);
+	}
+
+

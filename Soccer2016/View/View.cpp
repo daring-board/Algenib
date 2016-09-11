@@ -391,22 +391,19 @@ void View::drawOffsideLine(int time, type t){
 	int index = 0;
 	Scalar color = (t==TF)? Scalar(255, 0, 0): Scalar( 0, 0, 255);
 	bool flag = false;
-	Interval inter = getTeam(t);
-
-	for(int j=inter.start;j<inter.end;j++){
-		if(j == (NUM-1)/2) continue;
-		flag = false;
-		point[j].x = playersList->getX()[j+time*(NUM-1)];
-		point[j].y = playersList->getY()[j+time*(NUM-1)];
-		flag = (t==TF)? (point[j].x < tmp): (point[j].x > tmp);
-		if(flag){
-			tmp = point[j].x;
-			index = j;
-		}
-	}
-	pt1 = cvPointFrom32f( cvPoint2D32f( point[index].x, cn->getSpace()) );
-	pt2 = cvPointFrom32f( cvPoint2D32f( point[index].x, img.cols-cn->getSpace()));
+	index = playersList->getLLD(time, (int)t);
+	pt1 = cvPointFrom32f( cvPoint2D32f( playersList->getX()[index+time*(NUM-1)], cn->getSpace()) );
+	pt2 = cvPointFrom32f( cvPoint2D32f( playersList->getX()[index+time*(NUM-1)], img.cols-cn->getSpace()));
 	cv::line(img,pt1,pt2, color,lineSize,CV_AA,0);
+	pt1 = cvPointFrom32f( cvPoint2D32f( playersList->getX()[index+time*(NUM-1)], playersList->getY()[index+time*(NUM-1)]) );
+	cv::circle( img, pt1, 5, color, CV_FILLED);
+	/*stack<int> st = playersList->getLD(time, (int)t);
+	while(!st.empty()){
+		index = st.top();
+		st.pop();
+		pt1 = cvPointFrom32f( cvPoint2D32f( playersList->getX()[index+time*(NUM-1)], playersList->getY()[index+time*(NUM-1)]) );
+		cv::circle( img, pt1, 5, color, CV_FILLED);
+	}*/
 }
 
 void View::divideField(int time, type t){
