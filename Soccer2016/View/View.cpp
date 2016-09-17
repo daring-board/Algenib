@@ -396,14 +396,14 @@ void View::drawOffsideLine(int time, type t){
 	pt2 = cvPointFrom32f( cvPoint2D32f( playersList->getX()[index+time*(NUM-1)], img.cols-cn->getSpace()));
 	cv::line(img,pt1,pt2, color,lineSize,CV_AA,0);
 	pt1 = cvPointFrom32f( cvPoint2D32f( playersList->getX()[index+time*(NUM-1)], playersList->getY()[index+time*(NUM-1)]) );
-	cv::circle( img, pt1, 5, color, CV_FILLED);
-	/*stack<int> st = playersList->getLD(time, (int)t);
+	cv::circle( img, pt1, playerSize*2, color);
+	stack<int> st = playersList->getLD(time, (int)t);
 	while(!st.empty()){
 		index = st.top();
 		st.pop();
 		pt1 = cvPointFrom32f( cvPoint2D32f( playersList->getX()[index+time*(NUM-1)], playersList->getY()[index+time*(NUM-1)]) );
-		cv::circle( img, pt1, 5, color, CV_FILLED);
-	}*/
+		cv::circle( img, pt1, playerSize*2, color);
+	}
 }
 
 void View::divideField(int time, type t){

@@ -59,6 +59,7 @@
 		order = new int[NUM*LOOP];
 		type = new ConstNum::PlayerType[NUM*LOOP];
 		value = new float[width*height*NUM];
+		memset(type, 99, NUM*LOOP);
 		memset(value, constNum->getINF(), width*height*NUM);
 	}
 
@@ -143,7 +144,7 @@
 	stack<int> Players::getLD(int time, int t){
 		bool flag = false;
 		int index = 0;
-		stack<int> st;
+		stack<int> st = stack<int>();
 		int start, end;
 		if(t == 0){
 			start = 1;
@@ -158,9 +159,13 @@
 				break;
 			}
 		}
+		float a = x[index+time*NUM];
+		bool flg = false;
 		for(int j=start;j<end;j++){
-			if((x[index+time*NUM] <= x[j+time*NUM])
-				&& (x[index+time*NUM]+2 > x[j+time*NUM])){
+			if(j==index) continue;
+			flg = (t==0)? (a <= x[j+time*NUM]) && (a+cn->getRadius()*cn->getScale() > x[j+time*NUM]) 
+						: (a >= x[j+time*NUM]) && (a-cn->getRadius()*cn->getScale() < x[j+time*NUM]);
+			if(flg){
 					type[j+time*NUM] = ConstNum::PlayerType::LD;
 					st.push(j);
 			}
