@@ -129,8 +129,8 @@ void View::show(BallController bc, int t)
 	TDA tda;
 	drawfield();
 	// Dominant Region
-	/*calcurateDominant(t, bc);
-	drawDominant(t, bc, TS);*/
+	calcurateDominant(t, bc);
+	drawDominant(t, bc, TS);
 			
 	// Topological
 	tda = calcTDA(t, TS);
