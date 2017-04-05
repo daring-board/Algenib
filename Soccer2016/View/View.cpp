@@ -37,7 +37,7 @@ void View::refresh(void)
 	p1.y = 0;
 	p2.x = img.cols;
 	p2.y = img.rows;
-	rectangle(img,p1,p2,Scalar(0, 255, 0),CV_FILLED, CV_AA);
+	rectangle(img,p1,p2,Scalar(0, 150, 0),CV_FILLED, CV_AA);
 }
 
 void View::drawfield(void)
@@ -130,22 +130,29 @@ void View::show(BallController bc, int t)
 	drawfield();
 	// Dominant Region
 	calcurateDominant(t, bc);
+	drawDominant(t, bc, TF);
 	drawDominant(t, bc, TS);
 			
 	// Topological
+	tda = calcTDA(t, TF);
+	drawTDATriangle(tda, TF);
 	tda = calcTDA(t, TS);
 	drawTDATriangle(tda, TS);
 	// Delaunay
 	/*subdiv = divideSurface(t, TF);
 	drawDelaunay(subdiv, TF);*/
 	// Defence Line
+	dl = calcLine(t, TF);
+	drawLine(dl, TF);
 	dl = calcLine(t, TS);
 	drawLine(dl, TS);
 
 	drawBall(t);
 	drawPlayers(t);
 	divideField(t, TS);
+	divideField(t, TF);
 	drawOffsideLine(t, TS);
+	drawOffsideLine(t, TF);
 	imshow(str, img);
 	waitKey(200);
 	refresh();

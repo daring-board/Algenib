@@ -9,6 +9,11 @@ using namespace cv;
 
 class View
 {
+public :
+	typedef struct{
+		int start;
+		int end;
+	}Interval;
 private:
 	Mat img;
 	ConstNum *cn;
@@ -20,10 +25,6 @@ private:
 	int ballSize;
 	int playerSize;
 	enum type{ TF=0, TS=1, TA=2};
-	typedef struct{
-		int start;
-		int end;
-	}Interval;
 	Interval getTeam(int flag);
 public:
 	VIEW_API View(void);
