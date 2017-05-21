@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0D1347BE-3657-4C63-86DC-8F8FF8CA0407}</ProjectGuid>
+    <ProjectGuid>{C58DFE6B-A523-45BA-AE3B-73C7A4195775}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>View</RootNamespace>
+    <RootNamespace>SPA</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -79,15 +79,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files\tbb42_20140122oss\include;C:\opencv\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\tbb42_20140122oss\lib\intel64\vc11;C:\opencv\build\x64\vc11\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\opencv\build\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\opencv\build\x64\vc11\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VIEW_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SPA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -100,7 +100,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;VIEW_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SPA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -115,7 +115,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VIEW_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SPA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -133,7 +133,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;VIEW_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SPA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\opencv\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -148,9 +148,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SPA.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="View.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -167,48 +167,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SPA.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="View.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BallController\BallController.vcxproj">
-      <Project>{3b3a9e0b-fc31-462c-afaf-296b22b638b3}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Ball\Ball.vcxproj">
-      <Project>{e67cff27-2041-43ef-a11e-6e0c20044a9e}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ConstNum\ConstNum.vcxproj">
-      <Project>{8aea08a4-672c-4725-9583-86d09461c79e}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\GameController\GameController.vcxproj">
-      <Project>{c9ea09c8-8f15-4793-82b6-37e65c06499c}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Input\Input.vcxproj">
-      <Project>{3536cce0-7674-4ee6-8d86-f17bc5d7ac35}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Line\Line.vcxproj">
-      <Project>{e83ee6e0-7bc4-417a-ab5e-b74fc331d0bb}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ParaCalcDom\ParaCalcDom.vcxproj">
-      <Project>{262618ce-2338-4144-ac25-67d5b3fe0450}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ParaPaintDom\ParaPaintDom.vcxproj">
-      <Project>{ac00f35a-6f87-400b-94dd-dc95ec64b6ad}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Players\Players.vcxproj">
-      <Project>{c33e92b6-01b7-449a-9369-6f3fd2ca415c}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\SPA\SPA.vcxproj">
-      <Project>{c58dfe6b-a523-45ba-ae3b-73c7a4195775}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\TDA\TDA.vcxproj">
-      <Project>{87c7766c-4a7d-42f7-a399-ab46b70e06d2}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

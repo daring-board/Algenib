@@ -139,8 +139,11 @@ void View::show(BallController bc, int t)
 	tda = calcTDA(t, TS);
 	drawTDATriangle(tda, TS);
 	// Delaunay
-	/*subdiv = divideSurface(t, TF);
-	drawDelaunay(subdiv, TF);*/
+	subdiv = divideSurface(t, TA);
+	drawDelaunay(subdiv, TA);
+
+	SPA spa(subdiv, NUM-3);
+
 	// Defence Line
 	dl = calcLine(t, TF);
 	drawLine(dl, TF);
@@ -153,8 +156,10 @@ void View::show(BallController bc, int t)
 	divideField(t, TF);
 	drawOffsideLine(t, TS);
 	drawOffsideLine(t, TF);
+spa.drawGraph(img);
 	imshow(str, img);
 	waitKey(200);
+waitKey(60000);
 	refresh();
 }
 
@@ -197,7 +202,9 @@ void View::drawPlayers(int t)
 void View::drawDelaunay(Subdiv2D subdiv, type t){
 	vector<Vec4f> edgeList;
 	int Linesize = 1;
-	Scalar color = (t==TF)? Scalar(255, 0, 0): Scalar( 0, 0, 255);
+	Scalar color = Scalar( 0, 0, 0);
+	if(t == TF) Scalar( 0, 0, 255);
+	else if(t==TS) Scalar( 255, 0, 0);
 	// •Ó‚ÌƒŠƒXƒg‚ðŽæ“¾
 	subdiv.getEdgeList(edgeList);
 
