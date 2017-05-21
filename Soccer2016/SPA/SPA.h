@@ -14,8 +14,12 @@ private:
 	Point *nodes;
 	map<int, vector<int>> eList;
 	map<int, vector<float>> wList;
+	vector<int> path;
+
 	int addNode(Point p);
 	void showAdjList();
+	float getMinEdge(int n, int node, float **opt);
+	void showPath(float **opt, int start, int end);
 
 public:
 	SPA_API SPA(Subdiv2D subdiv, int n);

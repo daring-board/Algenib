@@ -157,9 +157,9 @@ void View::show(BallController bc, int t)
 	drawOffsideLine(t, TS);
 	drawOffsideLine(t, TF);
 spa.drawGraph(img);
+spa.calcShotestPath(0, NUM-3);
 	imshow(str, img);
 	waitKey(200);
-waitKey(60000);
 	refresh();
 }
 
