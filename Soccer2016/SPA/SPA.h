@@ -11,15 +11,18 @@ using namespace cv;
 class SPA{
 private:
 	int num;
-	Point *nodes;
+	Point2f *nodes;
 	map<int, vector<int>> eList;
 	map<int, vector<float>> wList;
 	vector<int> path;
+	Point2f *idxList;
+	Subdiv2D div;
 
-	int addNode(Point p);
+	int addNode(Point2f p);
 	void showAdjList();
 	float getMinEdge(int n, int node, float **opt);
 	void showPath(float **opt, int start, int end);
+	void createIdxMap();
 
 public:
 	SPA_API SPA(Subdiv2D subdiv, int n);

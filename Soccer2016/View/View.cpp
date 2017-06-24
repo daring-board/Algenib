@@ -140,7 +140,7 @@ void View::show(BallController bc, int t)
 	drawTDATriangle(tda, TS);
 	// Delaunay
 	subdiv = divideSurface(t, TA);
-	drawDelaunay(subdiv, TA);
+//	drawDelaunay(subdiv, TA);
 
 	SPA spa(subdiv, NUM-3);
 
@@ -152,10 +152,10 @@ void View::show(BallController bc, int t)
 
 	drawBall(t);
 	drawPlayers(t);
-	divideField(t, TS);
-	divideField(t, TF);
-	drawOffsideLine(t, TS);
-	drawOffsideLine(t, TF);
+	//divideField(t, TS);
+	//divideField(t, TF);
+	//drawOffsideLine(t, TS);
+	//drawOffsideLine(t, TF);
 spa.drawGraph(img);
 spa.calcShotestPath(0, NUM-3);
 	imshow(str, img);
@@ -237,24 +237,15 @@ Subdiv2D View::divideSurface(int time, type t){
 	Interval inter = getTeam(t);
 	for (i = inter.start; i < inter.end; i++) {
 		if( i != pNUM/2 ){
-			if(point[i].x < 0){
-				point[i].x = 0;
-			}
-			if(point[i].x > img.cols ){
-				point[i].x = img.cols-1;
-			}
-			if(point[i].y < 0){
-				point[i].y = 0;
-			}
-			if(point[i].y > img.rows ){
-				point[i].y = img.rows-1;
-			}
+			if(point[i].x < 0) point[i].x = 0;
+			if(point[i].x > img.cols ) point[i].x = img.cols-1;
+			if(point[i].y < 0) point[i].y = 0;
+			if(point[i].y > img.rows ) point[i].y = img.rows-1;
 			point_f.push_back(point[i]);
 		}
 	}
 	subdiv.initDelaunay(Rect( 0, 0, img.cols, img.rows));
 	subdiv.insert(point_f);
-
 	return(subdiv);
 }
 

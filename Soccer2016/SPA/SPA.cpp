@@ -9,14 +9,13 @@ int SPA_INF = 9999;
 SPA::SPA(Subdiv2D subdiv, int size){
 	cout<<"Constract SPA Object"<<endl;
 	num = size;
+	div = subdiv;
 	vector<Vec4f> edgeList;
 	// 辺のリストを取得
 	subdiv.getEdgeList(edgeList);
-	nodes = new Point[num];
-	Point p( 0, 0);
-	for(int i=0;i<num;i++){
-		nodes[i] = p;
-	}
+	nodes = new Point2f[num];
+	Point2f p( 0, 0);
+	for(int i=0;i<num;i++) nodes[i] = p;
 
 	// 隣接性の取得
 	int index1=0, index2=0;
@@ -24,8 +23,8 @@ SPA::SPA(Subdiv2D subdiv, int size){
 	float x=0,y=0;
 	for(auto edge = edgeList.begin(); edge != edgeList.end(); edge++)
 	{
-		Point p1(edge->val[0], edge->val[1]);
-		Point p2(edge->val[2], edge->val[3]);
+		Point2f p1(edge->val[0], edge->val[1]);
+		Point2f p2(edge->val[2], edge->val[3]);
 		if( !(abs(edge->val[0]) == 2820 || abs(edge->val[1]) == 2820
 			|| abs(edge->val[2]) == 2820 || abs(edge->val[3]) == 2820) ){
 				index1 = addNode(p1);
@@ -40,12 +39,18 @@ SPA::SPA(Subdiv2D subdiv, int size){
 				wList[index1].push_back(sqrt(x+y));
 		}
 	}
+	createIdxMap();
 	showAdjList();
 }
 
-// if Point p is not exist in nodes then push nodes vector
-int SPA::addNode(Point p){
-	Point init(0, 0);
+void SPA::createIdxMap(){
+	idxList = new Point2f[num];
+	for(int idx=0; idx < num; idx++) idxList[idx] = div.getVertex(idx+4);
+}
+
+// if Point2f p is not exist in nodes then push nodes vector
+int SPA::addNode(Point2f p){
+	Point2f init(0, 0);
 	bool flag = true;
 	int index = 0;
 	for( index=0; index<num; index++){
@@ -56,24 +61,29 @@ int SPA::addNode(Point p){
 		if(nodes[index] == init) break;
 	}
 	if(flag) nodes[index] = p;
-	return(index);
+	return index;
 }
 
 void SPA::drawGraph(Mat img){
 	//cout<<"drawGraph"<<endl;
-	Point point;
+	Point2f point, p;
 	char* numS = new char[4];
 	int font = CV_FONT_HERSHEY_SIMPLEX;
 
 	for(int i=0;i<num;i++){
 		point = nodes[i];
-		sprintf_s(numS, sizeof(4), "%d", i);
+		int j = 0;
+		for(j=0; j<num;j++){
+			p = idxList[j];
+			if(point.x == p.x && point.y == p.y) break; 
+		}
+		sprintf_s(numS, sizeof(4), "%d", j+1);
 		circle(img, point, 5, Scalar( 255, 255, 255), CV_FILLED);
 		putText(img, numS, point, font, 1, Scalar(255, 255, 255));
 	}
 
 	for(int i=0;i < num;i++){
-		Point node = nodes[i];
+		Point2f node = nodes[i];
 		for(int j=0; j<eList[i].size();j++){
 			line( img, nodes[i], nodes[eList[i].at(j)], Scalar( 255, 255, 255), 2, CV_AA,0);
 		}
@@ -83,7 +93,7 @@ void SPA::drawGraph(Mat img){
 void SPA::showAdjList(){
 	//隣接リストの表示
 	for(int i=0;i < num;i++){
-		Point node = nodes[i];
+		Point2f node = nodes[i];
 		cout<<i<<": ";
 		for(int j=0; j<eList[i].size();j++){
 			int child = eList[i].at(j);
@@ -131,7 +141,7 @@ float SPA::getMinEdge(int i, int node, float **opt){
 		tmp = opt[i][index] + weight;
 		min = (tmp < min)? tmp: min;
 	}
-	return(min);
+	return min;
 }
 
 void SPA::showPath(float **opt, int start, int end){
