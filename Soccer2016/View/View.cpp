@@ -142,7 +142,8 @@ void View::show(BallController bc, int t)
 	subdiv = divideSurface(t, TA);
 //	drawDelaunay(subdiv, TA);
 
-	SPA spa(subdiv, NUM-3);
+//	SPA spa(subdiv, NUM-3);
+	SPAD spa(subdiv, NUM-3);
 
 	// Defence Line
 	dl = calcLine(t, TF);
@@ -156,8 +157,8 @@ void View::show(BallController bc, int t)
 	//divideField(t, TF);
 	//drawOffsideLine(t, TS);
 	//drawOffsideLine(t, TF);
-spa.drawGraph(img);
-spa.calcShotestPath(0, NUM-3);
+//spa.drawGraph(img);
+spa.calcShortestPath(0, NUM-3);
 	imshow(str, img);
 	waitKey(200);
 	refresh();

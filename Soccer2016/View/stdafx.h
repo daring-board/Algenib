@@ -21,7 +21,8 @@
 #include "..\BallController\BallController.h"
 #include "..\GameController\GameController.h"
 #include "..\TDA\TDA.h"
-#include "..\SPA\SPA.h"
+//#include "..\SPA\SPA.h"
+#include "..\SPAD\SPAD.h"
 #include "..\ParaCalcDom\ParaCalcDom.h"
 #include "..\ParaPaintDom\ParaPaintDom.h"
 #include <stack>

@@ -203,8 +203,8 @@
     <ProjectReference Include="..\Players\Players.vcxproj">
       <Project>{c33e92b6-01b7-449a-9369-6f3fd2ca415c}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\SPA\SPA.vcxproj">
-      <Project>{c58dfe6b-a523-45ba-ae3b-73c7a4195775}</Project>
+    <ProjectReference Include="..\SPAD\SPAD.vcxproj">
+      <Project>{e4e8061e-44f7-4c55-8b6c-697ea916d18d}</Project>
     </ProjectReference>
     <ProjectReference Include="..\TDA\TDA.vcxproj">
       <Project>{87c7766c-4a7d-42f7-a399-ab46b70e06d2}</Project>
