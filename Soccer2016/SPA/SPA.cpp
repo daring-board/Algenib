@@ -104,7 +104,15 @@ void SPA::showAdjList(){
 	cout<<endl;
 }
 
-void SPA::calcShotestPath(int start, int end){
+void SPA::calcShotestPath(int start, int end, int option){
+		if(option == 0) bellmanFord(start, end);
+		else dikstra(start, end);
+}
+
+void SPA::dikstra(int start, int end){
+}
+
+void SPA::bellmanFord(int start, int end){
 	//cout<<"calcShotestPath"<<endl;
 	float **M = new float*[num];
 	for(int i=0; i<num; i++){

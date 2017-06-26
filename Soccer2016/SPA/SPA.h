@@ -23,9 +23,11 @@ private:
 	float getMinEdge(int n, int node, float **opt);
 	void showPath(float **opt, int start, int end);
 	void createIdxMap();
+	void dikstra(int start, int end);
+	void bellmanFord(int start, int end);
 
 public:
 	SPA_API SPA(Subdiv2D subdiv, int n);
 	void SPA_API drawGraph(Mat img);
-	void SPA_API calcShotestPath(int start, int end);
+	void SPA_API calcShotestPath(int start, int end, int option=0);
 };
